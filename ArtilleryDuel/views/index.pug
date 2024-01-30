@@ -1,0 +1,9 @@
+extends layout
+
+block content
+ body(style="margin:0;")
+  audio(control='',loop='')
+   source(src="sounds/intro.mp3")
+  .container
+    .center
+      button(onclick="location.href='./game'",class="button") Player 1

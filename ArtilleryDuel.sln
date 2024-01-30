@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ArtilleryDuel", "ArtilleryDuel\ArtilleryDuel.njsproj", "{ACF84097-2C64-46C8-BAD8-E352F6C88395}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACF84097-2C64-46C8-BAD8-E352F6C88395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF84097-2C64-46C8-BAD8-E352F6C88395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF84097-2C64-46C8-BAD8-E352F6C88395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF84097-2C64-46C8-BAD8-E352F6C88395}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BB98195-2061-4AE7-8477-D56A13A8B4EA}
+	EndGlobalSection
+EndGlobal
