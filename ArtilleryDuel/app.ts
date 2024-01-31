@@ -98,12 +98,12 @@ function join(ws: WebSocket) {
     if (player1Id === '') {
         player1Id = clients.get(ws);
         console.log("Player1 Connected");
-        const message = "{ \"dir\": 0, \"speed\": 10, \"xVel\": 0, \"angle\": 6.28318530718, \"strenght\": 100,\"minAngle\": 4.71238898038, \"x\": 50, \"y\": 700, \"size\": 64, \"color\": \"darkslategray\", \"sender\": \"server\" }";
+        const message = "{ \"dir\": 0, \"speed\": 10, \"xVel\": 0, \"angle\": 6.28318530718, \"strenght\": 100,\"minAngle\": 4.71238898038,\"shootTimer\": 0,\"shootSpeed\": 2,\"projectiles\": [], \"x\": 50, \"y\": 700, \"size\": 64, \"color\": \"darkslategray\", \"sender\": \"server\" }";
         ws.send(message);
     } else if (player2Id === '') {
         player2Id = clients.get(ws);
         console.log("Player2 Connected");
-        const message = "{ \"dir\": 0, \"speed\": 10, \"xVel\": 0, \"angle\": 3.14159265359, \"strenght\": 100,\"minAngle\": 3.14159265359, \"x\": 800, \"y\": 700, \"size\": 64, \"color\": \"darkslategray\", \"sender\": \"server\" }";
+        const message = "{ \"dir\": 0, \"speed\": 10, \"xVel\": 0, \"angle\": 3.14159265359, \"strenght\": 100,\"minAngle\": 3.14159265359,\"shootTimer\": 0,\"shootSpeed\": 2,\"projectiles\": [], \"x\": 800, \"y\": 700, \"size\": 64, \"color\": \"darkslategray\", \"sender\": \"server\" }";
         ws.send(message);
     }
 }

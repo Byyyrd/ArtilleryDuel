@@ -18,13 +18,20 @@ var test;
             let ctx = canvas.getContext("2d");
             let tankImage = document.getElementById("tankImage");
             let shootAudio = document.getElementById("tankAudio");
-            console.log(shootAudio);
             let date = new Date();
             let previousTime = date.getTime();
             let leftPressed = false;
             let rigthPressed = false;
             let won = false;
             let lost = false;
+            let ground = [];
+            const tileWidth = 10;
+            const tileHeight = 10;
+            for (var i = 0; i < canvas.width / tileWidth + 1; i++) {
+                for (var j = 0; j < (canvas.height - 720) / tileHeight + 1; j++) {
+                    ground.push(new GroundTile(i * tileWidth, j * tileHeight + 732, tileWidth, tileHeight));
+                }
+            }
             function inRectangle(px, py, rx, ry, rb, rh) {
                 if (rx < px && px < rx + rb && ry < py && py < ry + rh) {
                     return true;
@@ -40,17 +47,22 @@ var test;
                 if (!won && !lost) {
                     //Calc dt
                     date = new Date();
-                    var dt = (date.getTime() - previousTime) / 60;
+                    var dt = (date.getTime() - previousTime) * 0.001;
                     //inputs();
                     draw();
-                    updatePlayer(player, dt);
-                    updatePlayer(player2, dt);
+                    if (player != null) {
+                        updatePlayer(player, ground, dt);
+                    }
+                    if (player2 != null) {
+                        updatePlayer(player2, ground, dt);
+                    }
                     collision();
                     setTimeout(function () { }, 100);
                     //Send Info to other Player
                     const messageBody = player;
                     ws.send(JSON.stringify(messageBody));
                     //Calc dt
+                    date = new Date();
                     previousTime = date.getTime();
                 }
                 else {
@@ -67,21 +79,32 @@ var test;
                 }
             }
             function collision() {
-                if (player2 != null && player2.projectile != null && !won) {
-                    if (inRectangle(player2.projectile.x, player2.projectile.y, player.x, player.y, player.size, player.size / 2)) {
-                        player = null;
-                        lost = true;
-                    }
+                if (player2 != null && player2.projectiles != null && !won) {
+                    player2.projectiles.forEach((projectile) => {
+                        if (inRectangle(projectile.x, projectile.y, player.x, player.y, player.size, player.size / 2)) {
+                            player = null;
+                            lost = true;
+                        }
+                    });
                 }
             }
             function draw() {
                 clearScreen();
-                //Draw Background
-                ctx.fillStyle = "darkolivegreen";
-                ctx.fillRect(0, 732, canvas.width, canvas.height - 732);
+                drawBackground();
                 //Draw Player
                 drawPlayer(player, ctx, tankImage);
                 drawPlayer(player2, ctx, tankImage);
+            }
+            function drawBackground() {
+                ctx.fillStyle = "darkolivegreen";
+                //ctx.fillRect(0, 732, canvas.width, canvas.height - 732);
+                ground.forEach((tile) => {
+                    ctx.fillStyle = "darkolivegreen";
+                    ctx.fillRect(tile.x, tile.y, tile.width, tile.height);
+                    /*ctx.fillStyle = 'black';
+                    ctx.lineWidth = .25;
+                    ctx.strokeRect(tile.x, tile.y, tile.width, tile.height);*/
+                });
             }
             function clearScreen() {
                 ctx.fillStyle = "#2c2c2c";
@@ -123,8 +146,10 @@ var test;
                         player.angle += (2 * Math.PI) / 360;
                 }
                 if (event.key == 'Enter' && player != null) {
-                    shootAudio.play();
-                    shoot(player);
+                    if (player.shootTimer > player.shootSpeed) {
+                        shootAudio.play();
+                        shoot(player);
+                    }
                 }
             }
             function keyUp(event) {
@@ -138,13 +163,9 @@ var test;
             function mouseClick(event) {
                 const x = event.clientX;
                 const y = event.clientY;
-                if (player != null) {
-                    //shoot(player);
-                }
             }
             ws.onmessage = (webSocketMessage) => {
                 const messageBody = JSON.parse(webSocketMessage.data);
-                console.log(messageBody);
                 if (messageBody != null && messageBody.sender == 'server') {
                     player = messageBody;
                 }
